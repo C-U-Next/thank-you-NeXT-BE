@@ -20,4 +20,14 @@ public class ImageQueryDSLImpl implements ImageQueryDSL{
                 .where(image.post.id.eq(postId))
                 .execute();
     }
+
+    @Override
+    public Long deleteAllByGalleryId(Long galleryId) {
+        QImage image = QImage.image;
+
+        return jpaQueryFactory
+                .delete(image)
+                .where(image.gallery.id.eq(galleryId))
+                .execute();
+    }
 }

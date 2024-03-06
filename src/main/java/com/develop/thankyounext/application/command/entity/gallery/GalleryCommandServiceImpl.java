@@ -7,7 +7,9 @@ import com.develop.thankyounext.domain.entity.Gallery;
 import com.develop.thankyounext.domain.entity.Image;
 import com.develop.thankyounext.domain.repository.gallery.GalleryRepository;
 import com.develop.thankyounext.domain.repository.image.ImageRepository;
+import com.develop.thankyounext.global.exception.handler.GalleryHandler;
 import com.develop.thankyounext.global.manager.amazon.s3.AmazonS3Manger;
+import com.develop.thankyounext.global.payload.code.status.ErrorStatus;
 import com.develop.thankyounext.infrastructure.config.aws.AmazonConfig;
 import com.develop.thankyounext.infrastructure.converter.GalleryConverter;
 import com.develop.thankyounext.infrastructure.converter.ImageConverter;
@@ -18,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import static com.develop.thankyounext.domain.dto.gallery.GalleryRequest.UpdateGallery;
 
 @Slf4j
 @Service
@@ -48,6 +52,26 @@ public class GalleryCommandServiceImpl implements GalleryCommandService {
         return galleryConverter.toGalleryResult(saveGallery);
     }
 
+    @Override
+    public GalleryResult updateGallery(AuthenticationDto auth, UpdateGallery request, List<MultipartFile> fileList) {
+
+        Gallery currentGallery = galleryRepository.findById(request.galleryId())
+                .orElseThrow(() -> new GalleryHandler(ErrorStatus.GALLERY_NOT_FOUND));
+
+        if (request.title() != null && !request.title().isEmpty()) {
+            currentGallery.updateTitle(request.title());
+        }
+
+        currentGallery.getImageList().getImageList().forEach(image -> deleteImageFromS3(image.getUrl()));
+
+        imageRepository.deleteAllByGalleryId(request.galleryId());
+        List<Image> imageList = createImages(fileList, currentGallery);
+        currentGallery.setImageList(imageConverter.toGalleryImageList(imageList));
+        imageRepository.saveAll(imageList);
+
+        return galleryConverter.toGalleryResult(currentGallery);
+    }
+
     private List<Image> createImages(List<MultipartFile> fileList, Gallery gallery) {
         List<Image> imageList = fileList.stream().map(file -> {
             Image image = imageConverter.toImage(file, amazonS3Manger, amazonConfig.getPostPath());
@@ -56,5 +80,9 @@ public class GalleryCommandServiceImpl implements GalleryCommandService {
         }).toList();
         gallery.setImageList(imageConverter.toGalleryImageList(imageList));
         return imageList;
+    }
+
+    private void deleteImageFromS3(String url) {
+        amazonS3Manger.deleteImageForS3(amazonS3Manger.extractImageKeyFromUrl(url));
     }
 }

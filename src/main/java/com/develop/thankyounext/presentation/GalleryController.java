@@ -76,19 +76,20 @@ public class GalleryController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PatchMapping
+    @PatchMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             description = "갤러리 제목, 첨부파일 리스트를 받아 수정합니다.",
-            summary = "갤러리 수정 API (개발중)"
+            summary = "갤러리 수정 API"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
     public ApiResponseDTO<GalleryResult> updateGallery(
+            @AuthenticationPrincipal AuthenticationDto auth,
             @RequestPart final UpdateGallery request,
-            @RequestPart final List<MultipartFile> imageList
+            @RequestPart final List<MultipartFile> fileList
     ) {
-        GalleryResult resultDTO = null;
+        GalleryResult resultDTO = galleryCommandService.updateGallery(auth, request, fileList);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
