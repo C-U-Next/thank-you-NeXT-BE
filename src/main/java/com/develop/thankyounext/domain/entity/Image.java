@@ -1,6 +1,5 @@
 package com.develop.thankyounext.domain.entity;
 
-import com.develop.thankyounext.domain.entity.embedded.GalleryImageList;
 import jakarta.persistence.*;
 import lombok.*;
 
