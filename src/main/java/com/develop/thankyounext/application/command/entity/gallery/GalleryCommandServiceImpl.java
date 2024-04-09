@@ -32,6 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static com.develop.thankyounext.domain.dto.gallery.GalleryRequest.UpdateGallery;
+
 @Slf4j
 @Service
 @Transactional

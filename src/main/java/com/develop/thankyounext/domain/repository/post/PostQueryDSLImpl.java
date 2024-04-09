@@ -1,9 +1,6 @@
 package com.develop.thankyounext.domain.repository.post;
 
-import com.develop.thankyounext.domain.entity.Post;
-import com.develop.thankyounext.domain.entity.QComment;
-import com.develop.thankyounext.domain.entity.QMember;
-import com.develop.thankyounext.domain.entity.QPost;
+import com.develop.thankyounext.domain.entity.*;
 import com.develop.thankyounext.domain.entity.mapping.QPostTag;
 import com.develop.thankyounext.domain.enums.PostEnum;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -78,6 +75,7 @@ public class PostQueryDSLImpl implements PostQueryDSL {
         QPost post = QPost.post;
         QComment comment = QComment.comment;
         QMember member = QMember.member;
+        QImage image = QImage.image;
 
         Post findPost = jpaQueryFactory
                 .selectFrom(post)
@@ -101,6 +99,16 @@ public class PostQueryDSLImpl implements PostQueryDSL {
                 .fetchOne();
 
         return Optional.ofNullable(findPost);
+    }
+
+    @Override
+    public Long deleteAllById(Long postId) {
+        QPost post = QPost.post;
+
+        return jpaQueryFactory
+                .delete(post)
+                .where(post.id.eq(postId))
+                .execute();
     }
 
     private JPAQuery<Long> createCountQuery(BooleanExpression condition, QPost post) {

@@ -33,7 +33,7 @@ public class ImageQueryDSLImpl implements ImageQueryDSL{
                 .where(image.gallery.id.eq(galleryId))
                 .execute();
     }
-
+  
     @Override
     public List<Image> findAllByGalleryId(Long galleryId) {
         QImage image = QImage.image;

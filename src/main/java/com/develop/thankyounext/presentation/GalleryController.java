@@ -84,7 +84,7 @@ public class GalleryController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PatchMapping("/admin")
+    @PatchMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             description = "갤러리 제목, 첨부파일 리스트를 받아 수정합니다.",
             summary = "갤러리 수정 API"

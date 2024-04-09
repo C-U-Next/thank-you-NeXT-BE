@@ -4,7 +4,9 @@ import com.develop.thankyounext.domain.dto.base.common.AuthenticationDto;
 import com.develop.thankyounext.domain.dto.comment.CommentRequest;
 import com.develop.thankyounext.domain.dto.gallery.GalleryRequest;
 import com.develop.thankyounext.domain.dto.gallery.GalleryRequest.RegisterGallery;
+
 import com.develop.thankyounext.domain.dto.result.ResultResponse;
+import com.develop.thankyounext.domain.dto.gallery.GalleryRequest.UpdateGallery;
 import com.develop.thankyounext.domain.dto.result.ResultResponse.GalleryResult;
 import org.springframework.web.multipart.MultipartFile;
 
