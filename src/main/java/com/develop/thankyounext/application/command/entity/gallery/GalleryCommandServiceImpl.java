@@ -174,7 +174,7 @@ public class GalleryCommandServiceImpl implements GalleryCommandService {
 
     private List<Image> createImages(List<MultipartFile> fileList, Gallery gallery) {
         List<Image> imageList = fileList.stream().map(file -> {
-            Image image = imageConverter.toImage(file, amazonS3Manger, amazonConfig.getPostPath());
+            Image image = imageConverter.toImage(file, amazonS3Manger, amazonConfig.getGalleryPath());
             image.setGallery(gallery);
             return image;
         }).toList();

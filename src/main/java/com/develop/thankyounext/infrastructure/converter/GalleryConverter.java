@@ -8,6 +8,7 @@ import com.develop.thankyounext.domain.dto.gallery.GalleryRequest.RegisterGaller
 import com.develop.thankyounext.domain.dto.gallery.GalleryResponse;
 import com.develop.thankyounext.domain.dto.result.ResultResponse.GalleryResult;
 import com.develop.thankyounext.domain.entity.Gallery;
+import jakarta.transaction.Transactional;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
