@@ -92,13 +92,16 @@ public class GalleryCommandServiceImpl implements GalleryCommandService {
 
     @Override
     public GalleryResult deleteGallery(AuthenticationDto auth, GalleryRequest.DeleteGallery request) {
-        Gallery savedGallery = galleryRepository.findById(request.galleryId()).orElseThrow();
+        Gallery currentGallery = galleryRepository.findById(request.galleryId()).orElseThrow();
 
-        GalleryResult galleryResult = galleryConverter.toGalleryResult(savedGallery);
+        GalleryResult galleryResult = galleryConverter.toGalleryResult(currentGallery);
+
+        currentGallery.getImageList().getImageList().forEach(image -> deleteImageFromS3(image.getUrl()));
 
         imageRepository.deleteAllByGalleryId(request.galleryId());
         commentRepository.deleteAllByGalleryId(request.galleryId());
-        galleryRepository.delete(savedGallery);
+//        galleryRepository.delete(currentGallery);
+        galleryRepository.deleteAllById(currentGallery.getId());
 
         return galleryResult;
     }
@@ -188,9 +191,6 @@ public class GalleryCommandServiceImpl implements GalleryCommandService {
         amazonS3Manger.deleteImageForS3(amazonS3Manger.extractImageKeyFromUrl(url));
     }
 
-    private void deleteImageList(List<Image> deleteImageList) {
-        imageRepository.deleteAll(deleteImageList);
-    }
 
     private void deleteChildrenComment(Comment comment) {
         if (comment.getChildren() != null) {

@@ -33,6 +33,16 @@ public class GalleryQueryDSLImpl implements GalleryQueryDSL{
         return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchOne);
     }
 
+    @Override
+    public Long deleteAllById(Long galleryId) {
+        QGallery gallery = QGallery.gallery;
+
+        return jpaQueryFactory
+                .delete(gallery)
+                .where(gallery.id.eq(galleryId))
+                .execute();
+    }
+
     private JPAQuery<Long> createCountQuery(QGallery gallery) {
         return jpaQueryFactory
                 .select(gallery.count())
