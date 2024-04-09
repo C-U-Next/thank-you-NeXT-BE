@@ -36,7 +36,7 @@ public interface GalleryConverter {
 
     GalleryResponse.GetGallery toGetGallery(GalleryDto galleryDto, List<CommentDto> commentDtoList);
 
-    @Mapping(source = "imageList", target = "imageUrlList")
+    @Mapping(source = "imageList.imageList", target = "imageDtoList")
     @Mapping(source = "createdAt", target = "auditingDto.createdAt")
     @Mapping(source = "createdBy", target = "auditingDto.createdBy")
     @Mapping(source = "modifiedAt", target = "auditingDto.modifiedAt")
