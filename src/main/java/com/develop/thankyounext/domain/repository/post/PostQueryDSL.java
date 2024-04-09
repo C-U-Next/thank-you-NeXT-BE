@@ -17,4 +17,6 @@ public interface PostQueryDSL {
     Optional<Post> findByIdWithCommentAndMember(Long postId);
 
     Optional<Post> findByIdWithMember(Long postId);
+
+    Long deleteAllById(Long postId);
 }

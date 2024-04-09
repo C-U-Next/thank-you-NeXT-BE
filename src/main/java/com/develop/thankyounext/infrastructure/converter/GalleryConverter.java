@@ -31,7 +31,7 @@ public interface GalleryConverter {
     SimpleGalleryDto toSimpleGalleryDto(Gallery gallery);
 
     @Mapping(source = "id", target = "galleryId")
-    @Mapping(source = "createdAt", target = "executedAt")
+    @Mapping(source = "createdAt", target = "executedAt", defaultExpression = "java(java.time.LocalDateTime.now())")
     GalleryResult toGalleryResult(Gallery saveGallery);
 
     GalleryResponse.GetGallery toGetGallery(GalleryDto galleryDto, List<CommentDto> commentDtoList);

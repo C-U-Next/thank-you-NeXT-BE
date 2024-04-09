@@ -28,6 +28,7 @@ public interface PostConverter {
     SimplePostDto toSimplePostDto(Post post);
 
     @Mapping(source = "DType", target = "dType")
+    @Mapping(source = "imageList.imageList", target = "imageDtoList")
     @Mapping(source = "createdAt", target = "auditingDto.createdAt")
     @Mapping(source = "createdBy", target = "auditingDto.createdBy")
     @Mapping(source = "modifiedAt", target = "auditingDto.modifiedAt")
