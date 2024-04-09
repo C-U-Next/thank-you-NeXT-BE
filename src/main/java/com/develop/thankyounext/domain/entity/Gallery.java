@@ -28,4 +28,8 @@ public class Gallery extends BaseEntity {
     public void setImageList(GalleryImageList imageList) {
         this.imageList = imageList;
     }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
 }

@@ -15,6 +15,6 @@ public interface GalleryConverter {
     Gallery toGallery(RegisterGallery registerGallery);
 
     @Mapping(source = "id", target = "galleryId")
-    @Mapping(source = "createdAt", target = "executedAt")
+    @Mapping(source = "createdAt", target = "executedAt", defaultExpression = "java(java.time.LocalDateTime.now())")
     GalleryResult toGalleryResult(Gallery saveGallery);
 }

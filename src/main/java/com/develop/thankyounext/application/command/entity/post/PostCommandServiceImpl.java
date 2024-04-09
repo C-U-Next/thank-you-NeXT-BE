@@ -139,7 +139,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         imageRepository.deleteAllByPostId(request.postId());
         postTagRepository.deleteAllByPostId(request.postId());
         commentRepository.deleteAllByPostId(request.postId());
-        postRepository.deleteById(currentPost.getId());
+        postRepository.deleteAllById(currentPost.getId());
 
         return postResult;
     }
