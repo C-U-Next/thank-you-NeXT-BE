@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Console;
 import java.util.List;
 
 @Service
@@ -42,6 +43,7 @@ public class GalleryQueryServiceImpl implements GalleryQueryService {
     }
 
     private GalleryResponse.GetGalleryList createGetGalleryList(Page<Gallery> galleries) {
+
         List<SimpleGalleryDto> simpleGalleryDtoList = galleries.stream().map(galleryConverter::toSimpleGalleryDto).toList();
         PageDto pageDto = galleryConverter.toPageDto(galleries);
 

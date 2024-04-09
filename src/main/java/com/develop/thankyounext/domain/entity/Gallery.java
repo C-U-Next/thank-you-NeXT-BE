@@ -1,5 +1,6 @@
 package com.develop.thankyounext.domain.entity;
 
+import com.develop.thankyounext.domain.dto.base.entity.ImageDto;
 import com.develop.thankyounext.domain.entity.base.BaseEntity;
 import com.develop.thankyounext.domain.entity.embedded.GalleryImageList;
 import jakarta.persistence.*;

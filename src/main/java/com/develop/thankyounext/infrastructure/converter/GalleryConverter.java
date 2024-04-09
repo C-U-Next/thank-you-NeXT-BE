@@ -24,7 +24,7 @@ public interface GalleryConverter {
 
     Gallery toGallery(RegisterGallery registerGallery);
 
-    @Mapping(source = "imageList", target = "imageUrl")
+    @Mapping(source = "imageList.imageList", target = "imageUrl")
     @Mapping(source = "createdAt", target = "auditingDto.createdAt")
     @Mapping(source = "createdBy", target = "auditingDto.createdBy")
     @Mapping(source = "modifiedAt", target = "auditingDto.modifiedAt")

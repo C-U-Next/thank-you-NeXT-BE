@@ -1,6 +1,7 @@
 package com.develop.thankyounext.domain.repository.gallery;
 
 import com.develop.thankyounext.domain.entity.Gallery;
+import com.develop.thankyounext.domain.entity.Post;
 import com.develop.thankyounext.domain.entity.QGallery;
 import com.develop.thankyounext.domain.entity.QPost;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -25,7 +26,7 @@ public class GalleryQueryDSLImpl implements GalleryQueryDSL{
         List<Gallery> contents = jpaQueryFactory
                 .selectFrom(gallery)
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageNumber())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         JPAQuery<Long> countQuery = createCountQuery(gallery);
