@@ -11,13 +11,15 @@ import org.springframework.http.HttpStatus;
 public enum ErrorStatus implements BaseErrorCode {
 
     // 일반적인 응답
-    _INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON500", "서버 에러, 관리자에게 문의 바랍니다."),
-    _BAD_REQUEST(HttpStatus.BAD_REQUEST, "COMMON400", "잘못된 요청입니다."),
-    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "COMMON401", "인증이 필요합니다."),
-    _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
-    _NOT_FOUND(HttpStatus.NOT_FOUND, "COMMON404", "찾을 수 없습니다."),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON500", "서버 에러, 관리자에게 문의 바랍니다."),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "COMMON400", "잘못된 요청입니다."),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "COMMON401", "인증이 필요합니다."),
+    FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
+    NOT_FOUND(HttpStatus.NOT_FOUND, "COMMON404", "찾을 수 없습니다."),
 
     // Member
+    MEMBER_EMAIL_EXISTED(HttpStatus.BAD_REQUEST, "MEMBER4002", "이미 존재하는 이메일입니다."),
+    MEMBER_STUDENT_ID_EXISTED(HttpStatus.BAD_REQUEST, "MEMBER4003", "이미 존재하는 학번입니다."),
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404", "해당 사용자를 찾을 수 없습니다."),
     MEMBER_UPDATE_PASSWORD_NOT_EQUAL_BAD_REQUEST(HttpStatus.BAD_REQUEST, "MEMBER4001", "비밀번호와 비밀번호 확인이 일치하지 않습니다."),
 
@@ -31,6 +33,9 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // Gallery
     GALLERY_NOT_FOUND(HttpStatus.NOT_FOUND, "GALLERY404", "해당 갤러리 게시글을 찾을 수 없습니다."),
+
+    // Token
+    TOKEN_ALREADY_EXISTED(HttpStatus.BAD_REQUEST, "TOKEN4001", "로그아웃 처리된 토큰입니다."),
     ;
 
     private final HttpStatus httpStatus;
