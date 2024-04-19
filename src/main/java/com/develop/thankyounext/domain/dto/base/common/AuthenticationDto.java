@@ -14,13 +14,10 @@ import java.util.stream.Collectors;
 @Builder
 public record AuthenticationDto(
         Long id,
-        String username,
+        String email,
+        String password,
         Collection<? extends GrantedAuthority> authorities
 ) implements UserDetails {
-    @Override
-    public Long id() {
-        return id;
-    }
 
     @Builder
     public AuthenticationDto {
@@ -39,12 +36,12 @@ public record AuthenticationDto(
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
