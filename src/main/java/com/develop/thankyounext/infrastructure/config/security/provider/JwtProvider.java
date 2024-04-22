@@ -1,11 +1,11 @@
-package com.develop.thankyounext.infrastructure.config.security.jwt.driver;
+package com.develop.thankyounext.infrastructure.config.security.provider;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Optional;
 
-public interface JwtDriver {
+public interface JwtProvider {
     String createAccessToken(String email);
 
     String createRefreshToken();

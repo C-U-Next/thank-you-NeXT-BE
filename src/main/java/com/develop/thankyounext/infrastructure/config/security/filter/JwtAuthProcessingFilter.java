@@ -1,11 +1,11 @@
-package com.develop.thankyounext.infrastructure.config.security.jwt.filter;
+package com.develop.thankyounext.infrastructure.config.security.filter;
 
 import com.develop.thankyounext.domain.dto.base.common.AuthenticationDto;
 import com.develop.thankyounext.domain.entity.Member;
 import com.develop.thankyounext.domain.enums.UserRoleEnum;
 import com.develop.thankyounext.domain.repository.member.MemberRepository;
-import com.develop.thankyounext.infrastructure.config.redis.driver.RedisDriver;
-import com.develop.thankyounext.infrastructure.config.security.jwt.driver.JwtDriver;
+import com.develop.thankyounext.infrastructure.config.redis.RedisProvider;
+import com.develop.thankyounext.infrastructure.config.security.provider.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,16 +28,16 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtAuthProcessingFilter extends OncePerRequestFilter {
 
-    private final JwtDriver jwtDriver;
-    private final RedisDriver redisDriver;
+    private final JwtProvider jwtProvider;
+    private final RedisProvider redisProvider;
     private final MemberRepository memberRepository;
 
     private final GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String refreshToken = jwtDriver.extractRefreshToken(request)
-                .filter(jwtDriver::isTokenValid)
+        String refreshToken = jwtProvider.extractRefreshToken(request)
+                .filter(jwtProvider::isTokenValid)
                 .orElse(null);
 
         if (refreshToken != null) {
@@ -52,13 +52,13 @@ public class JwtAuthProcessingFilter extends OncePerRequestFilter {
         memberRepository.findByRefreshToken(refreshToken)
                 .ifPresent(member -> {
                     String reIssuedRefreshToken = reIssueRefreshToken(member);
-                    jwtDriver.sendAccessAndRefreshToken(response, jwtDriver.createAccessToken(member.getEmail()),
+                    jwtProvider.sendAccessAndRefreshToken(response, jwtProvider.createAccessToken(member.getEmail()),
                             reIssuedRefreshToken);
                 });
     }
 
     private String reIssueRefreshToken(Member member) {
-        String reIssuedRefreshToken = jwtDriver.createRefreshToken();
+        String reIssuedRefreshToken = jwtProvider.createRefreshToken();
         member.updateRefreshToken(reIssuedRefreshToken);
         memberRepository.saveAndFlush(member);
         return reIssuedRefreshToken;
@@ -66,11 +66,11 @@ public class JwtAuthProcessingFilter extends OncePerRequestFilter {
 
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException, IOException {
-        jwtDriver.extractAccessToken(request)
-                .filter(jwtDriver::isTokenValid)
+        jwtProvider.extractAccessToken(request)
+                .filter(jwtProvider::isTokenValid)
                 .ifPresent(accessToken -> {
-                    redisDriver.validBlackToken(accessToken);
-                    jwtDriver.extractId(accessToken)
+                    redisProvider.validBlackToken(accessToken);
+                    jwtProvider.extractId(accessToken)
                             .flatMap(memberRepository::findById)
                             .ifPresent(this::saveAuthentication);
                 });

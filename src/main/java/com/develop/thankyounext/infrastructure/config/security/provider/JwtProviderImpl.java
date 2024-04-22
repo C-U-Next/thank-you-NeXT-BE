@@ -1,9 +1,9 @@
-package com.develop.thankyounext.infrastructure.config.security.jwt.driver;
+package com.develop.thankyounext.infrastructure.config.security.provider;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.develop.thankyounext.domain.repository.member.MemberRepository;
-import com.develop.thankyounext.infrastructure.config.redis.driver.RedisDriver;
+import com.develop.thankyounext.infrastructure.config.redis.RedisProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @Getter
 @Slf4j
-public class JwtDriverImpl implements JwtDriver {
+public class JwtProviderImpl implements JwtProvider {
 
     @Value("${jwt.secret-key}")
     private String secretKey;
@@ -44,7 +44,7 @@ public class JwtDriverImpl implements JwtDriver {
     private static final String BEARER_CLAIM = "bearer ";
 
     private final MemberRepository memberRepository;
-    private final RedisDriver redisDriver;
+    private final RedisProvider redisProvider;
 
     @Override
     public String createAccessToken(String email) {
@@ -88,7 +88,7 @@ public class JwtDriverImpl implements JwtDriver {
 
     @Override
     public Optional<Long> extractId(String accessToken) {
-        Optional<String> isLogout = redisDriver.getLogoutStatus(accessToken);
+        Optional<String> isLogout = redisProvider.getLogoutStatus(accessToken);
         if (isLogout.isEmpty()) {
             try {
                 return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))

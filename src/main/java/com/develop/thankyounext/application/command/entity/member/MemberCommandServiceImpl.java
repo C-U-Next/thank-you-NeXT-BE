@@ -9,8 +9,8 @@ import com.develop.thankyounext.domain.enums.UserRoleEnum;
 import com.develop.thankyounext.domain.repository.member.MemberRepository;
 import com.develop.thankyounext.global.exception.handler.MemberHandler;
 import com.develop.thankyounext.global.payload.code.status.ErrorStatus;
-import com.develop.thankyounext.infrastructure.config.redis.driver.RedisDriver;
-import com.develop.thankyounext.infrastructure.config.security.jwt.driver.JwtDriver;
+import com.develop.thankyounext.infrastructure.config.redis.RedisProvider;
+import com.develop.thankyounext.infrastructure.config.security.provider.JwtProvider;
 import com.develop.thankyounext.infrastructure.converter.MemberConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,8 +29,8 @@ public class MemberCommandServiceImpl implements MemberCommandService{
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtDriver jwtDriver;
-    private final RedisDriver redisDriver;
+    private final JwtProvider jwtProvider;
+    private final RedisProvider redisProvider;
     private final MemberConverter memberConverter;
 
     @Override
@@ -61,8 +61,8 @@ public class MemberCommandServiceImpl implements MemberCommandService{
 
     @Override
     public void logout(String accessToken, Long memberId) {
-        Long expiration = jwtDriver.getExpiration(accessToken);
-        redisDriver.expireAccessToken(accessToken, expiration);
+        Long expiration = jwtProvider.getExpiration(accessToken);
+        redisProvider.expireAccessToken(accessToken, expiration);
         memberRepository.findById(memberId)
                 .ifPresent(member -> member.updateRefreshToken(null));
     }

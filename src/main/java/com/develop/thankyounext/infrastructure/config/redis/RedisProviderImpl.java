@@ -1,4 +1,4 @@
-package com.develop.thankyounext.infrastructure.config.redis.driver;
+package com.develop.thankyounext.infrastructure.config.redis;
 
 import com.develop.thankyounext.global.exception.handler.TokenHandler;
 import com.develop.thankyounext.global.payload.code.status.ErrorStatus;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @Component
 @Transactional
 @RequiredArgsConstructor
-public class RedisDriverImpl implements RedisDriver {
+public class RedisProviderImpl implements RedisProvider {
 
     private final RedisTemplate<String, Object> redisTemplate;
 

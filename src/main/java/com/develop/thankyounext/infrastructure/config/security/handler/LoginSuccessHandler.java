@@ -3,7 +3,7 @@ package com.develop.thankyounext.infrastructure.config.security.handler;
 import com.develop.thankyounext.domain.entity.Member;
 import com.develop.thankyounext.domain.repository.member.MemberRepository;
 import com.develop.thankyounext.global.payload.ApiResponseDTO;
-import com.develop.thankyounext.infrastructure.config.security.jwt.driver.JwtDriver;
+import com.develop.thankyounext.infrastructure.config.security.provider.JwtProvider;
 import com.develop.thankyounext.infrastructure.converter.MemberConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final JwtDriver jwtDriver;
+    private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
     private final ObjectMapper objectMapper;
 
@@ -30,10 +30,10 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String email = extractEmail(authentication);
-        String accessToken = jwtDriver.createAccessToken(email);
-        String refreshToken = jwtDriver.createRefreshToken();
+        String accessToken = jwtProvider.createAccessToken(email);
+        String refreshToken = jwtProvider.createRefreshToken();
 
-        jwtDriver.sendAccessAndRefreshToken(response, accessToken, refreshToken);
+        jwtProvider.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
         Member member = memberRepository.findByEmail(email).orElseThrow(RuntimeException::new);// Error Handler 구현 필요
         log.info("member.name = {}", member.getName());
