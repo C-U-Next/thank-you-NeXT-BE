@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,7 +30,7 @@ public class Member extends BaseEntity {
     private String email;
 
     @Column
-    @Size(max = 50)
+    @Size(max = 80)
     @NotNull
     private String password;
 
@@ -47,7 +48,7 @@ public class Member extends BaseEntity {
     private String studentId;
 
     @Column
-    @Size(max = 100)
+    @Size(max = 300)
     private String refreshToken;
 
     @Column
@@ -70,7 +71,19 @@ public class Member extends BaseEntity {
         this.studentId = studentId;
     }
 
+    public void updateRole(UserRoleEnum role) {
+        this.role = role;
+    }
+
     public void updateLinkUrlList(LinkUrlList linkUrlList) {
         this.linkUrlList = linkUrlList;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void passwordEncode(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
     }
 }
