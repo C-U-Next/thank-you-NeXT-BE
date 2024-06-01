@@ -2,12 +2,12 @@ package com.develop.thankyounext.infrastructure.config.security;
 
 import com.develop.thankyounext.application.command.entity.member.AuthService;
 import com.develop.thankyounext.domain.repository.member.MemberRepository;
-import com.develop.thankyounext.infrastructure.config.redis.driver.RedisDriver;
+import com.develop.thankyounext.infrastructure.config.redis.RedisProvider;
 import com.develop.thankyounext.infrastructure.config.security.handler.LoginFailureHandler;
 import com.develop.thankyounext.infrastructure.config.security.handler.LoginSuccessHandler;
-import com.develop.thankyounext.infrastructure.config.security.jwt.driver.JwtDriver;
 import com.develop.thankyounext.infrastructure.config.security.jwt.filter.CustomJsonAuthenticationFilter;
-import com.develop.thankyounext.infrastructure.config.security.jwt.filter.JwtAuthProcessingFilter;
+import com.develop.thankyounext.infrastructure.config.security.filter.JwtAuthProcessingFilter;
+import com.develop.thankyounext.infrastructure.config.security.provider.JwtProvider;
 import com.develop.thankyounext.infrastructure.converter.MemberConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +40,8 @@ import java.util.List;
 public class SecurityConfig {
 
     private final AuthService authService;
-    private final JwtDriver jwtDriver;
-    private final RedisDriver redisDriver;
+    private final JwtProvider jwtProvider;
+    private final RedisProvider redisProvider;
     private final MemberRepository memberRepository;
     private final ObjectMapper objectMapper;
 
@@ -90,7 +90,7 @@ public class SecurityConfig {
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtDriver, memberRepository, objectMapper, memberConverter);
+        return new LoginSuccessHandler(jwtProvider, memberRepository, objectMapper, memberConverter);
     }
 
     @Bean
@@ -109,7 +109,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthProcessingFilter jwtAuthProcessingFilter() {
-        return new JwtAuthProcessingFilter(jwtDriver, redisDriver, memberRepository);
+        return new JwtAuthProcessingFilter(jwtProvider, redisProvider, memberRepository);
     }
 
     CorsConfigurationSource apiConfigurationSource() {
