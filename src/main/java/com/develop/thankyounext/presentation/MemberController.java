@@ -30,7 +30,7 @@ public class MemberController {
 
     @GetMapping("/profile")
     @Operation(
-            description = "유저 정보를 조회합니다.",
+            description = "유저 정보를 조회합니다. Response : [GetMember]",
             summary = "유저 정보 조회 API"
     )
     @ApiResponses(value = {
@@ -45,7 +45,7 @@ public class MemberController {
 
     @PatchMapping("/profile")
     @Operation(
-            description = "유저 정보를 받아 수정합니다.",
+            description = "유저 정보를 받아 수정합니다. Request : [UpdateMember], Response : [MemberResult]",
             summary = "유저 정보 수정 API"
     )
     @ApiResponses(value = {
@@ -61,7 +61,7 @@ public class MemberController {
 
     @GetMapping("/posts")
     @Operation(
-            description = "유저가 작성한 게시글을 조회합니다.",
+            description = "유저가 작성한 게시글을 조회합니다. Response : [GetPostList]",
             summary = "유저 작성 게시글 조회 API"
     )
     @ApiResponses(value = {
@@ -77,7 +77,7 @@ public class MemberController {
 
     @GetMapping("/comments")
     @Operation(
-            description = "유저가 댓글 남긴 게시글을 조회합니다.",
+            description = "유저가 댓글 남긴 게시글을 조회합니다. Response : [GetPostList]",
             summary = "유저 댓글 남긴 게시글 조회 API"
     )
     @ApiResponses(value = {
