@@ -112,6 +112,7 @@ public class SecurityConfig {
         return new JwtAuthProcessingFilter(jwtProvider, redisProvider, memberRepository);
     }
 
+    @Bean
     CorsConfigurationSource apiConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:8080"));

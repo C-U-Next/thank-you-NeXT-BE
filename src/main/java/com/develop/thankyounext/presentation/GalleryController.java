@@ -39,7 +39,7 @@ public class GalleryController {
 
     @GetMapping("/{galleryId}")
     @Operation(
-            description = "갤러리 ID를 받아 조회합니다.",
+            description = "갤러리 ID를 받아 조회합니다. Request : [galleryId], Response : [GetGallery]",
             summary = "갤러리 단건조회 API"
     )
     @ApiResponses(value = {
@@ -54,7 +54,7 @@ public class GalleryController {
 
     @GetMapping
     @Operation(
-            description = "전체 갤러리를 조회합니다.",
+            description = "전체 갤러리를 조회합니다. Response : [GetGalleryList]",
             summary = "갤러리 다건조회 API"
     )
     @ApiResponses(value = {
@@ -69,7 +69,7 @@ public class GalleryController {
 
     @PostMapping(path = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
-            description = "갤러리 제목, 첨부파일 리스트를 받아 생성합니다.",
+            description = "갤러리 제목, 첨부파일 리스트를 받아 생성합니다. Reqeust : [RegisterGallery, fileList], Response : [GalleryResult]",
             summary = "갤러리 등록 API"
     )
     @ApiResponses(value = {
@@ -86,7 +86,7 @@ public class GalleryController {
 
     @PatchMapping(path = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
-            description = "갤러리 제목, 첨부파일 리스트를 받아 수정합니다.",
+            description = "갤러리 제목, 첨부파일 리스트를 받아 수정합니다. Request : [UpdateGallery, fileList], Response : [GalleryResult]",
             summary = "갤러리 수정 API"
     )
     @ApiResponses(value = {
@@ -103,7 +103,7 @@ public class GalleryController {
 
     @DeleteMapping("/admin")
     @Operation(
-            description = "갤러리 ID를 받아 삭제합니다.",
+            description = "갤러리 ID를 받아 삭제합니다. Request : [DeleteGallery], Response : [GalleryResult]",
             summary = "갤러리 삭제 API"
     )
     @ApiResponses(value = {
@@ -119,7 +119,7 @@ public class GalleryController {
 
     @PostMapping("/comment/{galleryId}")
     @Operation(
-            description = "갤러리 댓글을 받아 저장합니다.",
+            description = "갤러리 댓글을 받아 저장합니다. Request : [galleryId, RegisterComment], Response : [CommentResult]",
             summary = "갤러리 댓글 등록 API"
     )
     @ApiResponses(value = {
@@ -136,7 +136,7 @@ public class GalleryController {
 
     @PatchMapping("/comment")
     @Operation(
-            description = "갤러리 댓글을 받아 수정합니다.",
+            description = "갤러리 댓글을 받아 수정합니다. Request : [UpdateComment], Response : [CommentResult]",
             summary = "갤러리 댓글 수정 API"
     )
     @ApiResponses(value = {
@@ -152,7 +152,7 @@ public class GalleryController {
 
     @DeleteMapping("/comment")
     @Operation(
-            description = "갤러리 댓글을 받아 삭제합니다.",
+            description = "갤러리 댓글을 받아 삭제합니다. Request : [DeleteComment], Response : [CommentResult]",
             summary = "갤러리 댓글 삭제 API"
     )
     @ApiResponses(value = {

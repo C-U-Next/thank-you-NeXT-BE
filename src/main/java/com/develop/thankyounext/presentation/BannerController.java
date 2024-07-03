@@ -25,7 +25,7 @@ public class BannerController {
 
     @GetMapping("/banner")
     @Operation(
-            description = "메인 페이지의 배너를 조회합니다.",
+            description = "메인 페이지의 배너를 조회합니다. Response : [GetBannerList]",
             summary = "배너 조회 API"
     )
     @ApiResponses(value = {
